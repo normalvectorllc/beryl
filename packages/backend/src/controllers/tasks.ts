@@ -6,11 +6,10 @@ import { AppError } from '../middleware/errorHandler';
 
 /**
  * Get all tasks
- * This controller is intentionally left incomplete for the interviewee to implement
  */
 export const getAllTasks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // This function is intentionally left incomplete for the interviewee to implement
+    // TODO: This function is intentionally left incomplete for the interviewee to implement
     throw new AppError('Not implemented', 501);
   } catch (error) {
     next(error);
@@ -107,11 +106,10 @@ export const deleteTask = async (req: Request, res: Response, next: NextFunction
 
 /**
  * Generate subtasks for a task using AI
- * This controller is intentionally left incomplete for the interviewee to implement
  */
 export const generateSubtasks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    // This function is intentionally left incomplete for the interviewee to implement
+    // TODO: This function is intentionally left incomplete for the interviewee to implement
     throw new AppError('Not implemented', 501);
   } catch (error) {
     next(error);

@@ -28,9 +28,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      // This function is intentionally left incomplete for the interviewee to implement
-      // The interviewee should fetch tasks from the API and update the state
-      setTasks([]);
+      // TODO: This function is intentionally left incomplete for the interviewee to implement
+      throw new Error('Not implemented');
     } catch (err) {
       setError('Failed to fetch tasks');
       console.error(err);
@@ -94,8 +93,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      // This function is intentionally left incomplete for the interviewee to implement
-      // The interviewee should call the API to generate subtasks and update the state
+      // TODO: This function is intentionally left incomplete for the interviewee to implement
       throw new Error('Not implemented');
     } catch (err) {
       setError(`Failed to generate subtasks for task ${taskId}`);

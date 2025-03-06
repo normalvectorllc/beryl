@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 const Sidebar: React.FC = () => {
   return (
     <aside className="w-64 bg-white shadow-md">
-      <div className="p-4">
+      <div className="p-6">
         <h2 className="text-lg font-semibold mb-4">Navigation</h2>
         <nav className="space-y-2">
           <NavLink
@@ -30,6 +30,18 @@ const Sidebar: React.FC = () => {
             }
           >
             All Tasks
+          </NavLink>
+          <NavLink
+            to="/tasks/new"
+            className={({ isActive }) =>
+              `block px-4 py-2 rounded-md ${
+                isActive
+                  ? 'bg-primary-50 text-primary-700'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`
+            }
+          >
+            Create New Task
           </NavLink>
         </nav>
         

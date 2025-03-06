@@ -4,6 +4,7 @@ import Layout from './components/layout/Layout';
 import Home from './routes/Home';
 import TaskList from './routes/TaskList';
 import TaskDetail from './routes/TaskDetail';
+import TaskCreate from './routes/TaskCreate';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tasks" element={<TaskList />} />
+          <Route path="/tasks/new" element={<TaskCreate />} />
           <Route path="/tasks/:id" element={<TaskDetail />} />
         </Routes>
       </Layout>

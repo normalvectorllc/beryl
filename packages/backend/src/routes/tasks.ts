@@ -6,7 +6,7 @@ import { validate } from '../middleware/validation';
 const router: Router = express.Router();
 
 // GET /api/tasks - Get all tasks
-// This route is intentionally left incomplete for the interviewee to implement
+// TODO: This route is intentionally left incomplete for the interviewee to implement
 // router.get('/', taskController.getAllTasks);
 
 // POST /api/tasks - Create a new task
@@ -58,14 +58,6 @@ router.delete(
 );
 
 // POST /api/tasks/:id/breakdown - Generate subtasks using AI
-// This route is intentionally left incomplete for the interviewee to implement
-// router.post(
-//   '/:id/breakdown',
-//   [
-//     param('id').isInt().withMessage('Task ID must be an integer'),
-//     validate,
-//   ],
-//   taskController.generateSubtasks
-// );
+// TODO: This route is intentionally left incomplete for the interviewee to implement
 
 export default router;

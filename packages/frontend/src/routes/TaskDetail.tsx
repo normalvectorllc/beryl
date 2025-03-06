@@ -49,7 +49,11 @@ const TaskDetail: React.FC = () => {
     if (!id || !task) return;
     
     try {
-      await updateTask(parseInt(id, 10), formData);
+      await updateTask(parseInt(id, 10), {
+        ...formData,
+        status: formData.status as Task['status'],
+        priority: formData.priority as Task['priority'],
+      });
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update task:', error);
@@ -164,7 +168,7 @@ const TaskDetail: React.FC = () => {
             </div>
             
             <div>
-              <label htmlFor="dueDate" className="label">Due Date</label>
+              <label htmlFor="dueDate" className="label">Due Date (Optional)</label>
               <input
                 type="date"
                 id="dueDate"

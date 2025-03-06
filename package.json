@@ -11,7 +11,9 @@
         "dev": "turbo run dev",
         "lint": "turbo run lint",
         "test": "turbo run test",
-        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+        "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+        "seed": "turbo run seed",
+        "migrate": "turbo run migrate"
     },
     "keywords": [
         "task-management",
@@ -36,5 +38,9 @@
     "engines": {
         "node": ">=16.0.0"
     },
-    "packageManager": "npm@8.19.4"
+    "packageManager": "npm@8.19.4",
+    "dependencies": {
+        "dotenv": "^16.4.7",
+        "openai": "^4.86.2"
+    }
 }

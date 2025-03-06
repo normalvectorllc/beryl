@@ -1,19 +1,16 @@
 import React from 'react';
 import { Subtask } from '../../types';
-import { useTaskContext } from '../../context/TaskContext';
 
 interface SubtaskListProps {
   subtasks: Subtask[];
   taskId: number;
 }
 
-const SubtaskList: React.FC<SubtaskListProps> = ({ subtasks, taskId }) => {
-  const { updateTask } = useTaskContext();
+const SubtaskList: React.FC<SubtaskListProps> = ({ subtasks }) => {
   
   const handleStatusChange = async (subtaskId: number, newStatus: 'pending' | 'in-progress' | 'completed') => {
     try {
-      // This function is intentionally left incomplete for the interviewee to implement
-      // The interviewee should update the subtask status and refresh the task
+      // TODO: This function is intentionally left incomplete for the interviewee to implement
       console.log(`Update subtask ${subtaskId} to ${newStatus}`);
     } catch (error) {
       console.error('Failed to update subtask status:', error);

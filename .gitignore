@@ -27,7 +27,6 @@ yarn-error.log*
 
 # Editor directories and files
 .idea/
-.vscode/
 *.suo
 *.ntvs*
 *.njsproj
@@ -42,3 +41,6 @@ yarn-error.log*
 # Temporary files
 *.tmp
 *.temp
+
+.turbo/*
+.turbo

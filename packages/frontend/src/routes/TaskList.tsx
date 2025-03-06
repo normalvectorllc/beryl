@@ -1,17 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTaskContext } from '../context/TaskContext';
-import TaskItem from '../components/tasks/TaskItem';
 
 const TaskList: React.FC = () => {
   const { tasks, loading, error } = useTaskContext();
   
-  // This component is intentionally left incomplete for the interviewee to implement
-  // The interviewee should:
-  // 1. Implement the fetchTasks functionality in the TaskContext
-  // 2. Display the tasks in a list
-  // 3. Add filtering and sorting capabilities
-  // 4. Implement the UI for displaying subtasks
+  // TODO: This component is intentionally left incomplete for the interviewee to implement
   
   return (
     <div className="space-y-6">
@@ -77,7 +71,7 @@ const TaskList: React.FC = () => {
           </div>
         ) : (
           <div>
-            {/* This section is intentionally left incomplete for the interviewee to implement */}
+            {/* TODO: This section is intentionally left incomplete for the interviewee to implement */}
             <p className="text-center py-8 bg-white rounded-lg shadow-sm">
               Task list implementation is incomplete. The interviewee should implement this section.
             </p>

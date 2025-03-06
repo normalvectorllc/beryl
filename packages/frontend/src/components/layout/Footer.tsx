@@ -3,7 +3,7 @@ import React from 'react';
 const Footer: React.FC = () => {
   return (
     <footer className="bg-white shadow-sm py-4 mt-auto">
-      <div className="container mx-auto px-4">
+      <div className="container min-w-full px-6">
         <div className="flex justify-between items-center">
           <p className="text-gray-600">
             &copy; {new Date().getFullYear()} Task Management System

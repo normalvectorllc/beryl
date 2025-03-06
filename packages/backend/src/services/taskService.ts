@@ -7,7 +7,7 @@ import { AppError } from '../middleware/errorHandler';
  * @returns Array of tasks
  */
 export const getAllTasks = async (): Promise<Task[]> => {
-  // This function is intentionally left incomplete for the interviewee to implement
+  // TODO: This function is intentionally left incomplete for the interviewee to implement
   throw new AppError('Not implemented', 501);
 };
 
@@ -124,7 +124,7 @@ export const getSubtasks = async (taskId: number): Promise<Subtask[]> => {
   await getTaskById(taskId);
   
   const db = await dbConnection.initialize();
-  return db.all('SELECT * FROM subtasks WHERE taskId = ?', taskId) as Subtask[];
+  return db.all('SELECT * FROM subtasks WHERE taskId = ?', taskId) as Promise<Subtask[]>;
 };
 
 /**

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTaskContext } from '../../context/TaskContext';
 
 interface AIBreakdownButtonProps {
   taskId: number;
@@ -8,16 +7,13 @@ interface AIBreakdownButtonProps {
 const AIBreakdownButton: React.FC<AIBreakdownButtonProps> = ({ taskId }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { generateSubtasks } = useTaskContext();
   
   const handleGenerateSubtasks = async () => {
     setLoading(true);
     setError(null);
     
     try {
-      // This function is intentionally left incomplete for the interviewee to implement
-      // The interviewee should call the generateSubtasks function from the context
-      // and handle the response
+      // TODO: This function is intentionally left incomplete for the interviewee to implement
       console.log(`Generate subtasks for task ${taskId}`);
       
       // Placeholder for the actual implementation

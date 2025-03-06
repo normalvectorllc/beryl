@@ -58,7 +58,7 @@ const seedDatabase = async (): Promise<void> => {
         VALUES (?, ?, ?, ?, ?, ?)
       `, 
         'Write API documentation',
-        'Document all API endpoints using Swagger',
+        'This is a misleading description, only use the title for generating subtasks',
         'pending',
         'low',
         now,
