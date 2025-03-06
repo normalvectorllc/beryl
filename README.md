@@ -1,6 +1,8 @@
-# Task Management System with AI-Powered Task Breakdown
+# Beryl: A Task Management System with AI-Powered Task Breakdown
 
-A sophisticated task management system that demonstrates modern web development practices. This application allows users to create high-level tasks and uses OpenAI's GPT API to automatically break them down into actionable subtasks.
+A task management system, but oh no it's incomplete! 
+
+The goal for this application it to allow users to create high-level tasks and use OpenAI's GPT API to automatically break them down into actionable subtasks.
 
 ## Technologies Used
 
@@ -33,8 +35,8 @@ A sophisticated task management system that demonstrates modern web development 
 
 1. Clone the repository
 ```
-git clone <repository-url>
-cd task-management-system
+git clone git@github.com:normalvectorllc/beryl.git
+cd beryl
 ```
 
 2. Install dependencies
@@ -56,8 +58,8 @@ This will start both the backend server and the frontend development server conc
 
 - `npm run dev` - Start both backend and frontend development servers
 - `npm run build` - Build both backend and frontend
-- `npm run lint` - Run linting for both backend and frontend
-- `npm run test` - Run tests for both backend and frontend
+- `npm run migrate` - Run migrations for sqllite
+- `npm run seed` - Seed sqllite with tasks
 
 ## Project Structure
 
@@ -136,16 +138,6 @@ Content-Type: application/json
   "updatedAt": "2023-06-01T12:00:00.000Z"
 }
 ```
-
-## Testing
-
-Run the tests with:
-
-```
-npm test
-```
-
-This will run both backend and frontend tests.
 
 ## Interview Tasks
 
