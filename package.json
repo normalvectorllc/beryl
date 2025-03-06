@@ -1,0 +1,40 @@
+{
+    "name": "task-management-system",
+    "version": "1.0.0",
+    "private": true,
+    "description": "A sophisticated task management system with AI-powered task breakdown functionality",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev",
+        "lint": "turbo run lint",
+        "test": "turbo run test",
+        "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    },
+    "keywords": [
+        "task-management",
+        "ai",
+        "openai",
+        "react",
+        "express",
+        "sqlite",
+        "typescript"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.45.0",
+        "eslint-config-prettier": "^8.8.0",
+        "prettier": "^3.0.0",
+        "turbo": "^1.10.12",
+        "typescript": "^5.1.6"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "packageManager": "npm@8.19.4"
+}
