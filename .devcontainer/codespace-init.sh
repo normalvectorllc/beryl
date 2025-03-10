@@ -16,14 +16,11 @@ if [ -n "$CODESPACES" ] && [ "$CODESPACES" = "true" ]; then
   # Frontend port is embedded in the hostname: hostname-port.domain
   # Backend may use a different format
   
-  # Base hostname without port
-  BASE_HOST="https://$CODESPACE_NAME-$GITHUB_REPOSITORY_OWNER-$GITHUB_REPOSITORY_NAME.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN"
-  
   # Format for frontend URL (port in hostname)
-  FRONTEND_HOST="https://$CODESPACE_NAME-$GITHUB_REPOSITORY_OWNER-$GITHUB_REPOSITORY_NAME-3000.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN"
+  FRONTEND_HOST="https://$CODESPACE_NAME-3000.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN"
   
   # Format for backend URL (port in hostname)
-  BACKEND_HOST="https://$CODESPACE_NAME-$GITHUB_REPOSITORY_OWNER-$GITHUB_REPOSITORY_NAME-3001.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN"
+  BACKEND_HOST="https://$CODESPACE_NAME-3001.$GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN"
   
   echo "Frontend URL: $FRONTEND_HOST"
   echo "Backend URL: $BACKEND_HOST"
@@ -49,9 +46,21 @@ if [ -n "$CODESPACES" ] && [ "$CODESPACES" = "true" ]; then
     echo "FRONTEND_URL=$FRONTEND_HOST" >> .env
   fi
   
-  # Also create a .env file in the backend directory
+  # Add CODESPACES flag
+  if grep -q "CODESPACES" .env; then
+    sed -i "s|CODESPACES=.*|CODESPACES=true|g" .env
+  else
+    echo "CODESPACES=true" >> .env
+  fi
+  
+  # Create a dedicated .env file in the backend directory
+  echo "Creating backend environment file..."
   mkdir -p packages/backend
-  echo "FRONTEND_URL=$FRONTEND_HOST" > packages/backend/.env
+  cat > packages/backend/.env << EOL
+FRONTEND_URL=$FRONTEND_HOST
+CODESPACES=true
+NODE_ENV=development
+EOL
   
   echo "Environment configured for Codespaces"
 else
@@ -69,6 +78,13 @@ else
   if ! grep -q "FRONTEND_URL" .env; then
     echo "FRONTEND_URL=http://localhost:3000" >> .env
   fi
+  
+  # Create a .env file for backend directory in local dev too
+  mkdir -p packages/backend
+  cat > packages/backend/.env << EOL
+FRONTEND_URL=http://localhost:3000
+NODE_ENV=development
+EOL
 fi
 
 echo "Environment initialization complete" 
