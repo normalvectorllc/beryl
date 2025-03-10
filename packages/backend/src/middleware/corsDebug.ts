@@ -5,31 +5,47 @@ import { Request, Response, NextFunction } from 'express';
  * This adds CORS headers to all responses as a fallback
  */
 export const corsDebugMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-  // Log the request details
-  console.log('CORS Debug Middleware:');
-  console.log('  Method:', req.method);
-  console.log('  URL:', req.url);
-  console.log('  Origin:', req.headers.origin);
-  console.log('  Host:', req.headers.host);
-  console.log('  Referer:', req.headers.referer);
+  // Force more prominent logging for every request
+  console.log('\n\n==== CORS DEBUG MIDDLEWARE TRIGGERED ====');
+  console.log(`${new Date().toISOString()} - Handling ${req.method} request to ${req.url}`);
+  console.log('Request headers:');
+  console.log(JSON.stringify(req.headers, null, 2));
   
   // Add CORS headers to the response for GitHub Codespaces
-  // This is a fallback in case the CORS middleware doesn't work properly
   if (process.env.CODESPACES === 'true') {
-    const origin = req.headers.origin || '';
+    console.log('🚨 Codespaces environment detected - applying CORS headers');
     
-    // Allow the origin that made the request
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    // Get the origin from the request
+    const origin = req.headers.origin || '*';
+    console.log(`Setting Access-Control-Allow-Origin to: ${origin}`);
     
-    // Handle preflight requests
+    // Add CORS headers - using * as a fallback 
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    // Add a custom header for debugging purposes
+    res.header('X-CORS-Debug', 'Applied by corsDebugMiddleware');
+    
+    // Handle preflight requests immediately
     if (req.method === 'OPTIONS') {
+      console.log('🚨 CORS Preflight request detected - responding with 200 OK');
       res.status(200).end();
       return;
     }
+  } else {
+    console.log('Not in Codespaces environment, skipping custom CORS headers');
   }
+  
+  // Intercept the response to ensure we can see when it completes
+  const originalSend = res.send;
+  res.send = function(body) {
+    console.log(`Response status code: ${res.statusCode}`);
+    console.log(`Response headers: ${JSON.stringify(res.getHeaders(), null, 2)}`);
+    console.log('==== CORS DEBUG MIDDLEWARE COMPLETE ====\n\n');
+    return originalSend.call(this, body);
+  };
   
   next();
 }; 

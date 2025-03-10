@@ -16,46 +16,44 @@ const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || '3001', 10);
 
 // Log all environment variables for debugging
+console.log('\n\n==== SERVER STARTUP ====');
 console.log('Environment variables:');
 console.log('FRONTEND_URL:', process.env.FRONTEND_URL);
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('CODESPACES:', process.env.CODESPACES);
+console.log('==== END SERVER STARTUP LOGS ====\n\n');
 
-// CORS configuration with more direct approach for Codespaces
-const corsOptions = {
-  origin: function(origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
-    console.log('Incoming request from origin:', origin);
-    
-    // For Codespaces or development, be very permissive
-    if (process.env.CODESPACES === 'true' || process.env.NODE_ENV === 'development') {
-      // Allow any origin in Codespaces for now (for debugging)
-      return callback(null, true);
-    }
-    
-    // For production, use a stricter check
-    const allowedOrigins = process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : ['http://localhost:3000'];
-    if (!origin || allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-    
-    callback(new Error('CORS not allowed'), false);
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  optionsSuccessStatus: 200
-};
+// Super permissive CORS - allow everything for this dev/testing project
+console.log('Setting up wildcard CORS configuration - allowing all origins');
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Debug-Source, X-Codespace-Request');
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    console.log('Responding to preflight request');
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
-// Middleware
-app.use(cors(corsOptions));
+// Regular middleware
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Add the CORS debug middleware as a fallback
-app.use(corsDebugMiddleware);
-
 // Routes
 app.use('/api', routes);
+
+// Add a test route for CORS debugging
+app.get('/cors-test', (req, res) => {
+  console.log('CORS test route hit');
+  res.json({ 
+    message: 'CORS test successful', 
+    headers: req.headers
+  });
+});
 
 // Error handling middleware
 app.use(errorHandler);
