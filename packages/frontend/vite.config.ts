@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     server: {
       port: 3000,
+      host: true, // This allows connections from outside of the container
     },
     resolve: {
       alias: {
@@ -19,7 +20,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     define: {
-      'VITE_API_URL': JSON.stringify(env.API_URL || 'http://localhost:3001/api'),
+      // Properly define environment variables for Vite
+      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:3001/api'),
     },
   };
 });

@@ -14,9 +14,28 @@ dotenv.config();
 const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || '3001', 10);
 
-// CORS configuration
+// CORS configuration with more flexible options
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function(origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Get allowed origins from environment variable
+    const allowedOrigins = process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : ['http://localhost:3000'];
+    
+    // Allow requests with no origin (like mobile apps, curl, etc.)
+    if (!origin) {
+      return callback(null, true);
+    }
+    
+    // Log the origin for debugging
+    console.log(`Received request from origin: ${origin}`);
+    console.log(`Allowed origins: ${allowedOrigins.join(', ')}`);
+    
+    // Check if the origin is allowed
+    if (allowedOrigins.includes(origin) || origin.includes('github.dev')) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'), false);
+    }
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
@@ -39,10 +58,11 @@ const startServer = async (): Promise<void> => {
     await dbConnection.initialize();
     logger.info('Database connection initialized successfully');
     
-    // Start server
+    // Start server - listen on all interfaces
     if (process.env.NODE_ENV !== 'test') {
-      app.listen(PORT, () => {
+      app.listen(PORT, '0.0.0.0', () => {
         logger.info(`Server running on port ${PORT}`);
+        logger.info(`CORS configured to allow: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
       });
     }
   } catch (error) {
