@@ -1,27 +1,38 @@
-import express, { Router } from 'express';
+import express, { Router, Request, Response, NextFunction } from 'express';
 import { body, param } from 'express-validator';
 import * as taskController from '../controllers/tasks';
 import { validate } from '../middleware/validation';
 
 const router: Router = express.Router();
 
+// Add debugging middleware for all requests to this router
+router.use((req: Request, res: Response, next: NextFunction) => {
+  console.log(`[TASKS ROUTER] ${req.method} ${req.originalUrl}`);
+  console.log('Request headers:', req.headers);
+  next();
+});
+
 // GET /api/tasks - Get all tasks
-// TODO: This route is intentionally left incomplete for the interviewee to implement
-// router.get('/', taskController.getAllTasks);
+router.get('/', (req: Request, res: Response) => {
+  // Temporary implementation - will return an empty array
+  console.log('GET /api/tasks route hit');
+  res.status(200).json([]);
+});
 
 // POST /api/tasks - Create a new task
-router.post(
-  '/',
-  [
-    body('title').notEmpty().withMessage('Title is required'),
-    body('description').optional(),
-    body('status').optional().isIn(['pending', 'in-progress', 'completed']),
-    body('priority').optional().isIn(['low', 'medium', 'high']),
-    body('dueDate').optional().isISO8601().withMessage('Invalid date format'),
-    validate,
-  ],
-  taskController.createTask
-);
+// Add specific debugging for this route
+router.post('/', (req: Request, res: Response, next: NextFunction) => {
+  console.log('POST /api/tasks route hit');
+  console.log('Request body:', req.body);
+  next();
+}, [
+  body('title').notEmpty().withMessage('Title is required'),
+  body('description').optional(),
+  body('status').optional().isIn(['pending', 'in-progress', 'completed']),
+  body('priority').optional().isIn(['low', 'medium', 'high']),
+  body('dueDate').optional().isISO8601().withMessage('Invalid date format'),
+  validate,
+], taskController.createTask);
 
 // GET /api/tasks/:id - Get a specific task
 router.get(

@@ -23,21 +23,24 @@ console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('CODESPACES:', process.env.CODESPACES);
 console.log('==== END SERVER STARTUP LOGS ====\n\n');
 
-// Super permissive CORS - allow everything for this dev/testing project
-console.log('Setting up wildcard CORS configuration - allowing all origins');
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Debug-Source, X-Codespace-Request');
-  
-  // Handle preflight requests
-  if (req.method === 'OPTIONS') {
-    console.log('Responding to preflight request');
-    return res.status(200).end();
-  }
-  
-  next();
-});
+// Use the cors middleware with maximum permissiveness
+console.log('Setting up wildcard CORS with the cors middleware');
+app.use(cors({
+  origin: '*',  // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-Debug-Source', 'X-Codespace-Request'],
+  credentials: false,  // Must be false when using wildcard origin
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
+
+// For POST requests, make sure OPTIONS preflight is handled properly
+app.options('*', cors({
+  origin: '*',
+  optionsSuccessStatus: 204,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-Debug-Source', 'X-Codespace-Request']
+}));
 
 // Regular middleware
 app.use(express.json());
@@ -46,7 +49,17 @@ app.use(morgan('dev'));
 // Routes
 app.use('/api', routes);
 
-// Add a test route for CORS debugging
+// Add some direct test routes outside the /api prefix for easier testing
+app.get('/test', (req, res) => {
+  console.log('Test route hit!');
+  console.log('Request headers:', req.headers);
+  res.json({ 
+    message: 'Backend is working!',
+    cors: 'If you see this in the browser, CORS is working properly',
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.get('/cors-test', (req, res) => {
   console.log('CORS test route hit');
   res.json({ 

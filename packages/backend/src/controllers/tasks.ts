@@ -40,7 +40,9 @@ export const getTaskById = async (req: Request, res: Response, next: NextFunctio
  * Create a new task
  */
 export const createTask = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  console.log('[CONTROLLER] createTask called');
   try {
+    console.log('Request body in controller:', req.body);
     const taskData: CreateTaskDTO = {
       title: req.body.title,
       description: req.body.description,
@@ -49,9 +51,15 @@ export const createTask = async (req: Request, res: Response, next: NextFunction
       dueDate: req.body.dueDate,
     };
     
+    console.log('Processed task data:', taskData);
     const task = await taskService.createTask(taskData);
+    console.log('Task created successfully:', task);
+    
+    // Add CORS headers again just to be sure
+    res.header('Access-Control-Allow-Origin', '*');
     res.status(201).json(task);
   } catch (error) {
+    console.error('[CONTROLLER] Error creating task:', error);
     next(error);
   }
 };
