@@ -14,8 +14,15 @@ dotenv.config();
 const app: Express = express();
 const PORT: number = parseInt(process.env.PORT || '3001', 10);
 
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan('dev'));
 
