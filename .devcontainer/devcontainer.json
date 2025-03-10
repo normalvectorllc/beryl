@@ -8,16 +8,14 @@
   "portsAttributes": {
     "3000": {
       "label": "Frontend",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "protocol": "http"
     },
     "3001": {
       "label": "Backend",
-      "onAutoForward": "notify"
+      "onAutoForward": "notify",
+      "protocol": "http"
     }
-  },
-  "remoteEnv": {
-    "CODESPACES": "true",
-    "BACKEND_URL": "${localEnv:CODESPACES:+https://}${localEnv:CODESPACE_NAME}${localEnv:CODESPACES:+-${localEnv:GITHUB_REPOSITORY_OWNER}-${localEnv:GITHUB_REPOSITORY_NAME}.${localEnv:GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}}${localEnv:CODESPACES:+:3001}${localEnv:CODESPACES:-http://localhost:3001}"
   },
   "customizations": {
     "vscode": {

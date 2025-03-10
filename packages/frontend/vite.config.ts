@@ -20,6 +20,28 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: true, // This allows connections from outside of the container
       cors: true, // Enable CORS for development server
+      
+      // Add proxy configuration for API requests
+      proxy: {
+        '/api': {
+          target: 'http://localhost:3001',
+          changeOrigin: true,
+          secure: false,
+          ws: true,
+          // Log proxy requests for debugging
+          configure: (proxy, _options) => {
+            proxy.on('error', (err, _req, _res) => {
+              console.log('Proxy error:', err);
+            });
+            proxy.on('proxyReq', (proxyReq, req, _res) => {
+              console.log('Sending Request:', req.method, req.url);
+            });
+            proxy.on('proxyRes', (proxyRes, req, _res) => {
+              console.log('Received Response:', proxyRes.statusCode, req.url);
+            });
+          }
+        }
+      }
     },
     resolve: {
       alias: {
@@ -29,7 +51,7 @@ export default defineConfig(({ mode }) => {
     // Expose all environment variables to the client with VITE_ prefix
     define: {
       // Properly define environment variables for Vite
-      'import.meta.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || env.API_URL || 'http://localhost:3001/api'),
+      'import.meta.env.VITE_API_URL': JSON.stringify('/api'),
       'import.meta.env.CODESPACES': JSON.stringify(env.CODESPACES || 'false'),
     },
   };

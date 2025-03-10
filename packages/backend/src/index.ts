@@ -23,23 +23,31 @@ console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('CODESPACES:', process.env.CODESPACES);
 console.log('==== END SERVER STARTUP LOGS ====\n\n');
 
+// Handle OPTIONS requests first, before any other middleware
+// This ensures preflight requests bypass authentication
+app.options('*', (req, res) => {
+  console.log('Preflight OPTIONS request received - setting headers and responding with 200');
+  
+  // Set CORS headers
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+  res.header('Access-Control-Allow-Headers', '*');  // Allow all headers
+  res.header('Access-Control-Max-Age', '86400');  // Cache preflight response for 24 hours
+  
+  // Respond with 200 OK
+  res.status(200).end();
+});
+
 // Use the cors middleware with maximum permissiveness
+// This handles non-OPTIONS requests
 console.log('Setting up wildcard CORS with the cors middleware');
 app.use(cors({
   origin: '*',  // Allow all origins
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-Debug-Source', 'X-Codespace-Request'],
-  credentials: false,  // Must be false when using wildcard origin
+  allowedHeaders: '*',  // Allow all headers
+  credentials: false,   // Must be false with wildcard origin
   preflightContinue: false,
-  optionsSuccessStatus: 204
-}));
-
-// For POST requests, make sure OPTIONS preflight is handled properly
-app.options('*', cors({
-  origin: '*',
-  optionsSuccessStatus: 204,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'X-Debug-Source', 'X-Codespace-Request']
+  optionsSuccessStatus: 200
 }));
 
 // Regular middleware

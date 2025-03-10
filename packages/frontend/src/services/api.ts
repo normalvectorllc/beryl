@@ -1,25 +1,18 @@
 import axios, { AxiosInstance, AxiosError } from 'axios';
 import { ApiError } from '../types';
 
-// Get the API base URL from environment variables or default to localhost
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
-const IS_CODESPACE = import.meta.env.CODESPACES === 'true';
+// Using a relative URL - Vite proxy will handle forwarding to the backend
+// No need for environment variables or absolute URLs - much simpler!
+const API_URL = '/api';
 
-console.log('Frontend API service initializing with:', {
-  API_URL,
-  IS_CODESPACE
-});
+console.log('Frontend API service initializing with relative URL:', API_URL);
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
-    'X-Debug-Source': 'frontend-api-service',
-    'X-Codespace-Request': IS_CODESPACE ? 'true' : 'false'
   },
-  // Important: DON'T use withCredentials with wildcard CORS - browsers won't allow it
-  withCredentials: false
 });
 
 // Add request interceptor for debugging
