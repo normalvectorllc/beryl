@@ -22,6 +22,8 @@
         "esbenp.prettier-vscode",
         "ms-azuretools.vscode-docker",
         "ms-vsliveshare.vsliveshare",
+        "ms-vsliveshare.vsliveshare-audio",
+        "ms-vsliveshare.vsliveshare-pack",
         "GitHub.copilot"
       ],
       "settings": {
@@ -34,6 +36,6 @@
     }
   },
   "remoteUser": "node",
-  "postCreateCommand": "pnpm install && pnpm build && cp .env.template .env",
+  "postCreateCommand": "rm -rf node_modules && npm install && npm run migrate && npm run seed",
   "waitFor": "postCreateCommand"
 } 
