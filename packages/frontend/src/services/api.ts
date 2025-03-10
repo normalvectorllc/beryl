@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError } from 'axios';
 import { ApiError } from '../types';
 
 // Get the API base URL from environment variables or default to localhost
-const API_URL = import.meta.VITE_API_URL || 'http://localhost:3001/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
