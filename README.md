@@ -19,12 +19,6 @@ The goal of this application is to allow users to create high-level tasks and us
 - Tailwind CSS for styling
 - Responsive design principles
 
-### Project Structure
-- Turborepo for monorepo management
-- TypeScript for frontend
-- Python for backend
-- Vitest for frontend unit and integration tests
-
 ## Project Setup
 
 ### Prerequisites
@@ -58,60 +52,23 @@ npm run dev:all
 
 This will start both the backend server and the frontend development server concurrently.
 
-- Backend: http://localhost:3001
+- Backend: http://127.0.0.1:3001
 - Frontend: http://localhost:5173
 
-## Available Scripts
+## API Endpoints
 
-- `npm run dev:all` - Start both backend and frontend development servers
-- `npm run dev:frontend` - Start only the frontend development server
-- `npm run dev:backend-python` - Start only the Python backend server
-- `npm run build` - Build the frontend
-
-## Project Structure
-
-```
-task-management-system/
-├── packages/
-│   ├── backend-python/       # Backend Flask application
-│   │   ├── app.py            # Main application file
-│   │   ├── database.py       # Database setup
-│   │   ├── models.py         # Data models
-│   │   ├── routes.py         # API routes
-│   │   └── requirements.txt  # Python dependencies
-│   │
-│   └── frontend/             # React frontend application
-│       ├── src/              # TypeScript source files
-│       │   ├── components/   # React components
-│       │   ├── context/      # React context providers
-│       │   ├── routes/       # Route components
-│       │   ├── services/     # API services
-│       │   ├── styles/       # CSS styles
-│       │   └── types/        # TypeScript type definitions
-│       └── tsconfig.json     # TypeScript configuration
-│
-├── turbo.json                # Turborepo configuration
-└── package.json              # Root package.json for workspaces
-```
-
-## API Documentation
-
-### Endpoints
-
-#### Tasks
-
-- `GET /api/tasks` - Get all tasks (To be implemented by candidate)
 - `POST /api/tasks` - Create a new task
 - `GET /api/tasks/:id` - Get a specific task
 - `PUT /api/tasks/:id` - Update a task
 - `DELETE /api/tasks/:id` - Delete a task
+- `GET /api/tasks` - Get all tasks (To be implemented by candidate)
 - `POST /api/tasks/:id/breakdown` - Generate subtasks using AI (To be implemented by candidate)
 
-## Interview Tasks
+## Assessment Tasks
 
 This repository is designed for a technical interview. The interviewee is expected to implement the following features:
 
-### 1. Backend: Write the endpoint to return all created tasks
+### 1. Backend: Implement the endpoint to return all created tasks
 
 Implement the GET /api/tasks endpoint in the backend:
 - The endpoint should return all tasks from the database
@@ -121,16 +78,17 @@ Implement the GET /api/tasks endpoint in the backend:
 Files to modify:
 - `packages/backend-python/routes.py`
 
-### 2. AI Integration: Add subtask generation functionality to backend
+### 2. Backend: Implement AI-powered task breakdown
 
-Implement the OpenAI service in the backend:
-- Create the POST /api/tasks/:id/breakdown endpoint
-- Handle the API response and error states
+Implement the POST /api/tasks/:id/breakdown endpoint:
+- Use the OpenAI API to generate subtasks for a given task
+- Update the database with the generated subtasks
+- Return the updated task with its subtasks as a JSON response
 
 Files to modify:
 - `packages/backend-python/routes.py`
 
-### 3. Frontend Enhancement: Update task list to show subtasks per each task
+### 3. Frontend: Update task list to show subtasks for each task
 
 Modify the task list component to display subtasks:
 - Implement collapsible/expandable subtask lists
@@ -142,3 +100,5 @@ Files to modify:
 - `packages/frontend/src/components/tasks/SubtaskList.tsx`
 
 Note: The frontend implementation for fetching tasks and generating subtasks is already complete. Candidates should focus on the backend implementation and frontend enhancements.
+
+Good luck with your implementation!

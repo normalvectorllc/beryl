@@ -3,7 +3,7 @@ import { ApiError } from '../types';
 
 // Create axios instance
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:3001/api',
+  baseURL: 'http://127.0.0.1:3001/api',
   headers: {
     'Content-Type': 'application/json',
   },

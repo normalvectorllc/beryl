@@ -9,7 +9,9 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tasks.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    CORS(app)
+    # Enable CORS for all domains on all routes
+    CORS(app, resources={r"/*": {"origins": "*"}})
+
     init_db(app)
 
     app.register_blueprint(tasks, url_prefix='/api/tasks')
