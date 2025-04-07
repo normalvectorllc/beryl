@@ -1,14 +1,13 @@
 # Beryl: A Task Management System with AI-Powered Task Breakdown
 
-A task management system, but oh no it's incomplete! 
+A task management system with intentional gaps for assessment purposes.
 
-The goal for this application it to allow users to create high-level tasks and use OpenAI's GPT API to automatically break them down into actionable subtasks.
+The goal of this application is to allow users to create high-level tasks and use OpenAI's GPT API to automatically break them down into actionable subtasks.
 
 ## Technologies Used
 
 ### Backend
-- Node.js with Express
-- TypeScript
+- Python with Flask
 - RESTful API architecture
 - SQLite for database
 - Proper error handling and data validation
@@ -22,14 +21,17 @@ The goal for this application it to allow users to create high-level tasks and u
 
 ### Project Structure
 - Turborepo for monorepo management
-- TypeScript for type safety
-- Vitest for unit and integration tests
+- TypeScript for frontend
+- Python for backend
+- Vitest for frontend unit and integration tests
 
 ## Project Setup
 
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v7 or higher)
+- Python (v3.7 or higher)
+- pip (latest version)
 
 ### Installation
 
@@ -42,54 +44,54 @@ cd beryl
 2. Install dependencies
 ```
 npm install
+cd packages/backend-python
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+cd ../..
 ```
 
 3. Start the development servers
 ```
-npm run dev
+npm run dev:all
 ```
 
 This will start both the backend server and the frontend development server concurrently.
 
 - Backend: http://localhost:3001
-- Frontend: http://localhost:3000
+- Frontend: http://localhost:5173
 
 ## Available Scripts
 
-- `npm run dev` - Start both backend and frontend development servers
-- `npm run build` - Build both backend and frontend
-- `npm run migrate` - Run migrations for sqllite
-- `npm run seed` - Seed sqllite with tasks
+- `npm run dev:all` - Start both backend and frontend development servers
+- `npm run dev:frontend` - Start only the frontend development server
+- `npm run dev:backend-python` - Start only the Python backend server
+- `npm run build` - Build the frontend
 
 ## Project Structure
 
 ```
 task-management-system/
 ├── packages/
-│   ├── backend/             # Backend Express application
-│   │   ├── src/             # TypeScript source files
-│   │   │   ├── controllers/ # Request handlers
-│   │   │   ├── db/          # Database setup and migrations
-│   │   │   ├── middleware/  # Express middleware
-│   │   │   ├── models/      # Data models
-│   │   │   ├── routes/      # API routes
-│   │   │   ├── services/    # Business logic
-│   │   │   └── utils/       # Utility functions
-│   │   └── tsconfig.json    # TypeScript configuration
+│   ├── backend-python/       # Backend Flask application
+│   │   ├── app.py            # Main application file
+│   │   ├── database.py       # Database setup
+│   │   ├── models.py         # Data models
+│   │   ├── routes.py         # API routes
+│   │   └── requirements.txt  # Python dependencies
 │   │
-│   └── frontend/            # React frontend application
-│       ├── src/             # TypeScript source files
-│       │   ├── components/  # React components
-│       │   ├── context/     # React context providers
-│       │   ├── hooks/       # Custom React hooks
-│       │   ├── routes/      # Route components
-│       │   ├── services/    # API services
-│       │   ├── styles/      # CSS styles
-│       │   └── types/       # TypeScript type definitions
-│       └── tsconfig.json    # TypeScript configuration
+│   └── frontend/             # React frontend application
+│       ├── src/              # TypeScript source files
+│       │   ├── components/   # React components
+│       │   ├── context/      # React context providers
+│       │   ├── routes/       # Route components
+│       │   ├── services/     # API services
+│       │   ├── styles/       # CSS styles
+│       │   └── types/        # TypeScript type definitions
+│       └── tsconfig.json     # TypeScript configuration
 │
-├── turbo.json               # Turborepo configuration
-└── package.json             # Root package.json for workspaces
+├── turbo.json                # Turborepo configuration
+└── package.json              # Root package.json for workspaces
 ```
 
 ## API Documentation
@@ -98,46 +100,12 @@ task-management-system/
 
 #### Tasks
 
-- `GET /api/tasks` - Get all tasks
+- `GET /api/tasks` - Get all tasks (To be implemented by candidate)
 - `POST /api/tasks` - Create a new task
 - `GET /api/tasks/:id` - Get a specific task
 - `PUT /api/tasks/:id` - Update a task
 - `DELETE /api/tasks/:id` - Delete a task
-- `POST /api/tasks/:id/breakdown` - Generate subtasks using AI
-
-### Request/Response Examples
-
-#### Create a Task
-
-Request:
-```
-POST /api/tasks
-Content-Type: application/json
-
-{
-  "title": "Build a React application",
-  "description": "Create a new React application with routing and state management",
-  "priority": "high",
-  "dueDate": "2023-12-31"
-}
-```
-
-Response:
-```
-Status: 201 Created
-Content-Type: application/json
-
-{
-  "id": 1,
-  "title": "Build a React application",
-  "description": "Create a new React application with routing and state management",
-  "status": "pending",
-  "priority": "high",
-  "dueDate": "2023-12-31",
-  "createdAt": "2023-06-01T12:00:00.000Z",
-  "updatedAt": "2023-06-01T12:00:00.000Z"
-}
-```
+- `POST /api/tasks/:id/breakdown` - Generate subtasks using AI (To be implemented by candidate)
 
 ## Interview Tasks
 
@@ -151,37 +119,18 @@ Implement the GET /api/tasks endpoint in the backend:
 - Optional: Add sorting and filtering capabilities
 
 Files to modify:
-- `packages/backend/src/routes/tasks.ts`
-- `packages/backend/src/controllers/tasks.ts`
-- `packages/backend/src/services/taskService.ts`
+- `packages/backend-python/routes.py`
 
-### 2. Frontend: Build frontend to fetch tasks and feed them to an existing task list component
-
-Implement API call to fetch tasks from the backend:
-- Connect the API response to the existing task list component
-- Handle loading and error states
-- Implement refresh functionality
-
-Files to modify:
-- `packages/frontend/src/hooks/useTasks.js`
-- `packages/frontend/src/context/TaskContext.tsx`
-- `packages/frontend/src/routes/TaskList.tsx`
-
-### 3. AI Integration: Add subtask generation functionality to frontend and backend
+### 2. AI Integration: Add subtask generation functionality to backend
 
 Implement the OpenAI service in the backend:
 - Create the POST /api/tasks/:id/breakdown endpoint
-- Add UI components for triggering task breakdown
 - Handle the API response and error states
 
 Files to modify:
-- `packages/backend/src/services/aiService.ts`
-- `packages/backend/src/routes/tasks.ts`
-- `packages/backend/src/controllers/tasks.ts`
-- `packages/frontend/src/components/tasks/AIBreakdownButton.tsx`
-- `packages/frontend/src/hooks/useAI.ts`
+- `packages/backend-python/routes.py`
 
-### 4. Frontend Enhancement: Update task list to show subtasks per each task
+### 3. Frontend Enhancement: Update task list to show subtasks per each task
 
 Modify the task list component to display subtasks:
 - Implement collapsible/expandable subtask lists
@@ -191,3 +140,5 @@ Modify the task list component to display subtasks:
 Files to modify:
 - `packages/frontend/src/components/tasks/TaskItem.tsx`
 - `packages/frontend/src/components/tasks/SubtaskList.tsx`
+
+Note: The frontend implementation for fetching tasks and generating subtasks is already complete. Candidates should focus on the backend implementation and frontend enhancements.
