@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Task, Subtask } from '../types';
 import { api } from '../services/api';
 
@@ -16,7 +16,7 @@ interface TaskContextType {
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 interface TaskProviderProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
@@ -28,8 +28,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      // TODO: This function is intentionally left incomplete for the interviewee to implement
-      throw new Error('Not implemented');
+      const response = await api.get<Task[]>('/tasks');
+      setTasks(response.data);
     } catch (err) {
       setError('Failed to fetch tasks');
       console.error(err);
@@ -43,7 +43,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setError(null);
     try {
       const response = await api.post<Task>('/tasks', taskData);
-      setTasks(prevTasks => [...prevTasks, response.data]);
+      setTasks((prevTasks) => [...prevTasks, response.data]);
       return response.data;
     } catch (err) {
       setError('Failed to create task');
@@ -59,8 +59,8 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setError(null);
     try {
       const response = await api.put<Task>(`/tasks/${id}`, taskData);
-      setTasks(prevTasks => 
-        prevTasks.map(task => 
+      setTasks((prevTasks) => 
+        prevTasks.map((task) => 
           task.id === id ? { ...task, ...response.data } : task
         )
       );
@@ -79,7 +79,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setError(null);
     try {
       await api.delete(`/tasks/${id}`);
-      setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
     } catch (err) {
       setError(`Failed to delete task ${id}`);
       console.error(err);
@@ -93,8 +93,13 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
     try {
-      // TODO: This function is intentionally left incomplete for the interviewee to implement
-      throw new Error('Not implemented');
+      const response = await api.post<Subtask[]>(`/tasks/${taskId}/breakdown`);
+      setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, subtasks: response.data } : task
+        )
+      );
+      return response.data;
     } catch (err) {
       setError(`Failed to generate subtasks for task ${taskId}`);
       console.error(err);
@@ -108,7 +113,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     fetchTasks();
   }, []);
 
-  const value = {
+  const value: TaskContextType = {
     tasks,
     loading,
     error,
