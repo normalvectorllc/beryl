@@ -14,10 +14,10 @@
         "lint": "turbo run lint",
         "test": "turbo run test",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "seed": "turbo run seed --filter=!backend-php",
+        "seed": "turbo run seed --filter=!backend",
         "seed:node": "turbo run seed --filter=!backend-php",
         "seed:php": "turbo run seed --filter=backend-php",
-        "migrate": "turbo run migrate --filter=!backend-php",
+        "migrate": "turbo run migrate --filter=!backend",
         "migrate:node": "turbo run migrate --filter=!backend-php",
         "migrate:php": "turbo run migrate --filter=backend-php"
     },
