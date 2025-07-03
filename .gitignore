@@ -3,6 +3,10 @@ node_modules/
 .pnp/
 .pnp.js
 
+# PHP Dependencies
+vendor/
+composer.lock
+
 # Testing
 coverage/
 

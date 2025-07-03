@@ -6,9 +6,17 @@ The goal for this application it to allow users to create high-level tasks and u
 
 ## Technologies Used
 
-### Backend
+### Backend Options
+**Node.js Backend:**
 - Node.js with Express
 - TypeScript
+- RESTful API architecture
+- SQLite for database
+- Proper error handling and data validation
+
+**PHP Backend:**
+- PHP 8.0+ with Slim Framework
+- Eloquent ORM
 - RESTful API architecture
 - SQLite for database
 - Proper error handling and data validation
@@ -30,6 +38,7 @@ The goal for this application it to allow users to create high-level tasks and u
 ### Prerequisites
 - Node.js (v16 or higher)
 - npm (v7 or higher)
+- PHP 8.0+ and Composer (if using PHP backend)
 
 ### Installation
 
@@ -45,8 +54,15 @@ npm install
 ```
 
 3. Start the development servers
+
+**With Node.js Backend (default):**
 ```
 npm run dev
+```
+
+**With PHP Backend:**
+```
+npm run dev:php
 ```
 
 This will start both the backend server and the frontend development server concurrently.
@@ -56,17 +72,27 @@ This will start both the backend server and the frontend development server conc
 
 ## Available Scripts
 
-- `npm run dev` - Start both backend and frontend development servers
+### General
+- `npm run dev` - Start Node.js backend + frontend (default)
+- `npm run dev:node` - Start Node.js backend + frontend (explicit)
+- `npm run dev:php` - Start PHP backend + frontend
 - `npm run build` - Build both backend and frontend
-- `npm run migrate` - Run migrations for sqllite
-- `npm run seed` - Seed sqllite with tasks
+
+### Database Management
+**Node.js Backend:**
+- `npm run migrate` - Run migrations for Node.js backend
+- `npm run seed` - Seed database with sample data
+
+**PHP Backend:**
+- `npm run migrate:php` - Run migrations for PHP backend
+- `npm run seed:php` - Seed database with sample data
 
 ## Project Structure
 
 ```
 task-management-system/
 ├── packages/
-│   ├── backend/             # Backend Express application
+│   ├── backend/             # Node.js backend (Express + TypeScript)
 │   │   ├── src/             # TypeScript source files
 │   │   │   ├── controllers/ # Request handlers
 │   │   │   ├── db/          # Database setup and migrations
@@ -76,6 +102,18 @@ task-management-system/
 │   │   │   ├── services/    # Business logic
 │   │   │   └── utils/       # Utility functions
 │   │   └── tsconfig.json    # TypeScript configuration
+│   │
+│   ├── backend-php/         # PHP backend (Slim + Eloquent)
+│   │   ├── src/             # PHP source files
+│   │   │   ├── controllers/ # Request handlers
+│   │   │   ├── database/    # Database setup and migrations
+│   │   │   ├── middleware/  # Slim middleware
+│   │   │   ├── models/      # Eloquent models
+│   │   │   ├── routes/      # API routes
+│   │   │   ├── services/    # Business logic
+│   │   │   └── utils/       # Utility classes
+│   │   ├── public/          # Web server entry point
+│   │   └── composer.json    # PHP dependencies
 │   │
 │   └── frontend/            # React frontend application
 │       ├── src/             # TypeScript source files

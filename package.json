@@ -8,12 +8,18 @@
     ],
     "scripts": {
         "build": "turbo run build",
-        "dev": "turbo run dev",
+        "dev": "turbo run dev --filter=!backend",
+        "dev:node": "turbo run dev --filter=!backend-php",
+        "dev:php": "turbo run dev --filter=!backend --filter=backend-php",
         "lint": "turbo run lint",
         "test": "turbo run test",
         "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-        "seed": "turbo run seed",
-        "migrate": "turbo run migrate"
+        "seed": "turbo run seed --filter=!backend-php",
+        "seed:node": "turbo run seed --filter=!backend-php",
+        "seed:php": "turbo run seed --filter=backend-php",
+        "migrate": "turbo run migrate --filter=!backend-php",
+        "migrate:node": "turbo run migrate --filter=!backend-php",
+        "migrate:php": "turbo run migrate --filter=backend-php"
     },
     "keywords": [
         "task-management",

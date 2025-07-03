@@ -1,0 +1,13 @@
+{
+  "name": "@beryl/backend-php",
+  "version": "1.0.0",
+  "description": "PHP backend for Beryl task management system",
+  "scripts": {
+    "dev": "composer install && composer run start",
+    "build": "composer install --no-dev --optimize-autoloader",
+    "migrate": "composer run migrate",
+    "seed": "composer run seed"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
